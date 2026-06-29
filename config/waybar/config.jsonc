@@ -1,0 +1,136 @@
+// config.jsonc
+{
+  "$schema": "https://raw.githubusercontent.com/Magniquick/waybar-config-schema/main/schema.json",
+  "exclusive": true,
+  "reload_style_on_change": true,
+  "position": "top",
+  "spacing": 0,
+  "height": 32,
+
+  "modules-left": ["custom/launcher", "group/media"],
+  "modules-center": ["hyprland/workspaces"],
+  "modules-right": ["gamemode", "group/hardware", "group/clock-power", "tray"],
+
+  // Define Media Group (Audio + Network + Bluetooth)
+  "group/media": {
+    "orientation": "horizontal",
+    "modules": ["pulseaudio", "network", "bluetooth"]
+  },
+
+  // Define Hardware/System Group (CPU + Memory + Disk + Battery)
+  "group/hardware": {
+    "orientation": "horizontal",
+    "modules": ["cpu", "memory", "disk", "battery"]
+  },
+
+  "hyprland/workspaces": {
+    "format": "{name}",
+    "all-outputs": true,
+    "persistent-workspaces": {
+      "*": 5
+    }
+  },
+
+  "custom/launcher": {
+    "format": "<span color='#89b4fa'></span>",
+    "on-click": "~/.config/rofi/scripts/launcher_t4",
+    "tooltip": false
+  },
+
+  "cpu": {
+    "format": "<span color='#fab387'></span> {usage}%",
+    "interval": 5
+  },
+
+  "memory": {
+    "format": "<span color='#74c7ec'></span> {percentage}%",
+    "interval": 5
+  },
+
+  "disk": {
+    "format": "<span color='#a6e3a1'></span> {percentage_used}%",
+    "interval": 30
+  },
+
+  "pulseaudio": {
+    "format": "<span color='#cba6f7'>{icon}</span> {volume}%",
+    "format-muted": "<span color='#6c7086'>婢</span> Muted",
+    "format-icons": {
+      "default": ["", "", ""]
+    },
+    "on-click": "pavucontrol"
+  },
+
+  "network": {
+    "format-wifi": "<span color='#94e2d5'></span> {essid}",
+    "format-ethernet": "<span color='#94e2d5'></span> {ipaddr}",
+    "format-disconnected": "<span color='#f38ba8'></span> Disconnected",
+    "tooltip-format": "{ifname} via {gwaddr}",
+    "on-click": "~/.dotfiles/scripts/wifi-menu.sh"
+  },
+
+  "bluetooth": {
+    "format": "<span color='#89b4fa'></span>",
+    "format-connected": "<span color='#89b4fa'></span> {device_alias}",
+    "format-connected-battery": "<span color='#89b4fa'></span> {device_alias} <span color='#a6e3a1'>{device_battery_percentage}%</span>",
+    "tooltip-format": "{controller_alias}\t{controller_address}\n\n{num_connections} connected",
+    "tooltip-format-connected": "{controller_alias}\t{controller_address}\n\n{num_connections} connected\n\n{device_enumerate}",
+    "tooltip-format-enumerate-connected": "{device_alias}\t{device_address}",
+    "tooltip-format-enumerate-connected-battery": "{device_alias}\t{device_address}\t{device_battery_percentage}%",
+    "on-click": "~/.dotfiles/scripts/bluetooth-menu.sh",
+    "on-click-right": "bluetoothctl devices Connected | cut -f 2 -d ' ' | xargs -I {} bluetoothctl disconnect {}"
+  },
+
+  "battery": {
+    "states": {
+      "warning": 30,
+      "critical": 15
+    },
+    "format": "<span color='#a6e3a1'>{icon}</span> {capacity}%",
+    "format-charging": "<span color='#94e2d5'></span> {capacity}%",
+    "format-plugged": "<span color='#94e2d5'></span> {capacity}%",
+    "format-icons": ["", "", "", "", ""],
+    "interval": 10
+  },
+
+  "group/clock-power": {
+    "orientation": "horizontal",
+    "modules": ["clock", "custom/power", "custom/reboot", "custom/logout"]
+  },
+
+  "custom/power": {
+    "format": "",
+    "on-click": "systemctl poweroff",
+    "tooltip": false
+  },
+
+  "custom/reboot": {
+    "format": "",
+    "on-click": "systemctl reboot",
+    "tooltip": false
+  },
+
+  "custom/logout": {
+    "format": "",
+    "on-click": "hyprctl dispatch exit",
+    "tooltip": false
+  },
+
+  "clock": {
+    "format": "<span color='#f5c2e7'></span> {:%H:%M}",
+    "format-alt": "<span color='#f5c2e7'></span> {:%A, %B %d, %Y}"
+  },
+
+  "gamemode": {
+    "format": "{glyph}",
+    "format-alt": "{glyph} {count}",
+    "glyph": "󰊗",
+    "hide-not-running": false,
+    "use-icon": false,
+    "icon-name": "input-gaming-symbolic",
+    "icon-spacing": 4,
+    "icon-size": 18,
+    "tooltip": true,
+    "tooltip-format": "Games running: {count}"
+  }
+}

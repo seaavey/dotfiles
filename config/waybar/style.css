@@ -1,0 +1,342 @@
+
+
+@define-color base      #1e1e2e;
+@define-color mantle    #181825;
+@define-color crust     #11111b;
+@define-color surface0  #313244;
+@define-color surface1  #45475a;
+@define-color surface2  #585b70;
+@define-color text      #cdd6f4;
+@define-color subtext1  #bac2de;
+@define-color subtext0  #a6adc8;
+@define-color overlay2  #9399b2;
+@define-color overlay1  #7f849c;
+@define-color overlay0  #6c7086;
+@define-color blue      #89b4fa;
+@define-color lavender  #b4befe;
+@define-color mauve     #cba6f7;
+@define-color red       #f38ba8;
+@define-color peach     #fab387;
+@define-color yellow    #f9e2af;
+@define-color green     #a6e3a1;
+@define-color teal      #94e2d5;
+@define-color sapphire  #74c7ec;
+@define-color pink      #f5c2e7;
+@define-color rosewater #f5e0dc;
+
+* {
+    font-family:
+        "JetBrains Mono Nerd Font", Roboto, Helvetica, Arial, sans-serif;
+    font-size: 13px;
+    border: none;
+    border-radius: 0;
+    box-shadow: none;
+    text-shadow: none;
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+#waybar {
+    background-color: transparent;
+    background: transparent;
+    border: none;
+    box-shadow: none;
+}
+
+#workspaces,
+#custom-launcher,
+#media,
+#hardware,
+#clock-power,
+#gamemode,
+#tray {
+    background-color: alpha(@base, 0.65);
+    color: @text;
+    border: 1px solid alpha(@text, 0.05);
+    border-radius: 16px; 
+    margin: 6px 4px; 
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+    font-weight: 600; 
+    transition:
+        background-color 0.25s cubic-bezier(0.4, 0, 0.2, 1),
+        border-color 0.25s cubic-bezier(0.4, 0, 0.2, 1),
+        box-shadow 0.25s cubic-bezier(0.4, 0, 0.2, 1),
+        margin 0.25s cubic-bezier(0.4, 0, 0.2, 1),
+        color 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+#tray {
+    padding: 3px 16px;
+}
+
+#custom-launcher {
+    padding: 3px 14px;
+}
+
+#media,
+#hardware,
+#clock-power {
+    padding: 3px 6px;
+}
+
+#workspaces:hover {
+    background-color: alpha(@surface1, 0.85);
+    border-color: alpha(@lavender, 0.6);
+    box-shadow: 0 4px 12px alpha(@lavender, 0.25);
+}
+
+#custom-launcher:hover {
+    background-color: alpha(@surface1, 0.85);
+    border-color: alpha(@blue, 0.6);
+    box-shadow: 0 4px 12px alpha(@blue, 0.25);
+}
+
+#media:hover {
+    background-color: alpha(@surface1, 0.85);
+    border-color: alpha(@lavender, 0.6);
+    box-shadow: 0 4px 12px alpha(@lavender, 0.25);
+}
+
+#hardware:hover {
+    background-color: alpha(@surface1, 0.85);
+    border-color: alpha(@peach, 0.6);
+    box-shadow: 0 4px 12px alpha(@peach, 0.25);
+}
+
+#clock-power:hover {
+    background-color: alpha(@surface1, 0.85);
+    border-color: alpha(@pink, 0.6);
+    box-shadow: 0 4px 12px alpha(@pink, 0.25);
+}
+
+#tray:hover {
+    background-color: alpha(@surface1, 0.85);
+    border-color: alpha(@text, 0.4);
+    box-shadow: 0 4px 12px alpha(@text, 0.15);
+}
+
+#gamemode:hover {
+    background-color: alpha(@surface1, 0.85);
+    border-color: alpha(@mauve, 0.6);
+    box-shadow: 0 4px 12px alpha(@mauve, 0.25);
+}
+
+#workspaces {
+    padding: 2px 6px;
+}
+
+#workspaces button {
+    padding: 0;
+    color: @overlay0; 
+    background-color: transparent;
+    border: none;
+    border-radius: 50%;
+    margin: 3px 5px;
+    min-height: 22px;
+    min-width: 22px;
+    font-weight: bold;
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+#workspaces button.active {
+    color: @base;
+    background-color: @lavender;
+    border: none;
+}
+
+#workspaces button:not(.active):not(.empty) {
+    color: @text;
+}
+
+#workspaces button:hover {
+    color: @rosewater;
+    background-color: alpha(@text, 0.12);
+}
+
+#workspaces button.active:hover {
+    color: @base;
+    background-color: @rosewater;
+}
+
+#workspaces button.urgent {
+    color: @base;
+    background-color: @red;
+    animation: urgent-ripple 1.5s infinite ease-in-out;
+}
+
+#media #pulseaudio,
+#media #network,
+#media #bluetooth,
+#hardware #cpu,
+#hardware #memory,
+#hardware #disk,
+#hardware #battery {
+    padding: 0 12px;
+    margin: 2px 0;
+    border-radius: 12px;
+    min-height: 0;
+    min-width: 0;
+    transition:
+        color 0.2s ease,
+        background-color 0.2s ease,
+        border-color 0.2s ease;
+}
+
+#media #pulseaudio,
+#media #network,
+#hardware #cpu,
+#hardware #memory,
+#hardware #disk {
+    border-right: 1px solid alpha(@surface2, 0.4);
+}
+
+#media #pulseaudio:hover {
+    color: @mauve;
+    background-color: alpha(@mauve, 0.12);
+}
+
+#media #network:hover {
+    color: @teal;
+    background-color: alpha(@teal, 0.12);
+}
+
+#media #bluetooth:hover {
+    color: @blue;
+    background-color: alpha(@blue, 0.12);
+}
+
+#hardware #cpu:hover {
+    color: @peach;
+    background-color: alpha(@peach, 0.12);
+}
+
+#hardware #memory:hover {
+    color: @sapphire;
+    background-color: alpha(@sapphire, 0.12);
+}
+
+#hardware #disk:hover {
+    color: @green;
+    background-color: alpha(@green, 0.12);
+}
+
+#hardware #battery:hover {
+    color: @teal;
+    background-color: alpha(@teal, 0.12);
+}
+
+#pulseaudio.muted {
+    color: @overlay0;
+}
+
+#network.disconnected {
+    color: @red;
+}
+
+#bluetooth.disabled {
+    color: @overlay0;
+}
+
+#battery.charging,
+#battery.plugged {
+    color: @teal;
+}
+
+#battery.warning:not(.charging) {
+    color: @yellow;
+}
+
+#battery.critical:not(.charging) {
+    color: @red;
+    animation-name: battery-pulse;
+    animation-duration: 1.2s;
+    animation-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    animation-iteration-count: infinite;
+    animation-direction: alternate;
+}
+
+#tray {
+    background-color: alpha(@surface0, 0.45);
+    padding: 3px 12px;
+}
+
+#tray > .passive {
+    -gtk-icon-effect: dim;
+}
+
+#tray > .needs-attention {
+    -gtk-icon-effect: highlight;
+    background-color: @red;
+}
+
+#gamemode {
+    background-color: alpha(@surface0, 0.45);
+    padding: 3px 16px;
+}
+
+#gamemode.running {
+    color: @red;
+    background-color: alpha(@red, 0.15);
+    border-color: alpha(@red, 0.4);
+}
+
+#clock-power #clock,
+#clock-power #custom-power,
+#clock-power #custom-reboot,
+#clock-power #custom-logout {
+    padding: 0 12px;
+    margin: 2px 0;
+    border-radius: 12px;
+    min-height: 0;
+    min-width: 0;
+    transition:
+        color 0.2s ease,
+        background-color 0.2s ease,
+        border-color 0.2s ease;
+}
+
+#clock-power #clock,
+#clock-power #custom-power,
+#clock-power #custom-reboot {
+    border-right: 1px solid alpha(@surface2, 0.4);
+}
+
+#clock-power #custom-power:hover {
+    color: @red;
+    background-color: alpha(@red, 0.12);
+}
+
+#clock-power #custom-reboot:hover {
+    color: @yellow;
+    background-color: alpha(@yellow, 0.12);
+}
+
+#clock-power #custom-logout:hover {
+    color: @peach;
+    background-color: alpha(@peach, 0.12);
+}
+
+@keyframes battery-pulse {
+    0% {
+        background-color: alpha(@red, 0.1);
+        box-shadow: 0 4px 10px rgba(243, 139, 168, 0.15);
+        border-color: alpha(@red, 0.2);
+    }
+    100% {
+        background-color: alpha(@red, 0.4);
+        box-shadow: 0 4px 16px alpha(@red, 0.35);
+        border-color: alpha(@red, 0.6);
+        color: @text;
+    }
+}
+
+@keyframes urgent-ripple {
+    0% {
+        box-shadow: 0 0 0 0 alpha(@red, 0.6);
+    }
+    70% {
+        box-shadow: 0 0 0 6px alpha(@red, 0);
+    }
+    100% {
+        box-shadow: 0 0 0 0 alpha(@red, 0);
+    }
+}
