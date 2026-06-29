@@ -112,7 +112,7 @@
 
   "custom/logout": {
     "format": "",
-    "on-click": "hyprctl dispatch exit",
+    "on-click": "command -v hyprshutdown >/dev/null 2>&1 && hyprshutdown || hyprctl dispatch 'hl.dsp.exit()'",
     "tooltip": false
   },
 
