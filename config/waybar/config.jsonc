@@ -33,7 +33,7 @@
 
   "custom/launcher": {
     "format": "<span color='#89b4fa'></span>",
-    "on-click": "~/.config/rofi/scripts/launcher_t4",
+    "on-click": "~/.dotfiles/config/rofi/type-4/launcher_t4",
     "tooltip": false
   },
 
@@ -62,7 +62,7 @@
   },
 
   "network": {
-    "format-wifi": "<span color='#94e2d5'></span> {essid}",
+    "format-wifi": "<span color='#94e2d5'></span> ({essid})",
     "format-ethernet": "<span color='#94e2d5'></span> {ipaddr}",
     "format-disconnected": "<span color='#f38ba8'></span> Disconnected",
     "tooltip-format": "{ifname} via {gwaddr}",
