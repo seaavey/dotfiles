@@ -2,6 +2,6 @@
 return {
     terminal    = "kitty",
     fileManager = "dolphin",
-    menu        = "~/.config/rofi/scripts/launcher_t4",
+    menu        = "~/.dotfiles/config/rofi/type-4/launcher_t4",
     browser     = "brave-browser",
 }
