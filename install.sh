@@ -30,6 +30,7 @@ PACMAN_PKGS=(
 
 YAY_PKGS=(
   waybar-git
+  brave-bin
 )
 
 install_packages() {
