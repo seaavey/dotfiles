@@ -47,7 +47,6 @@
 #media,
 #hardware,
 #clock-power,
-#gamemode,
 #tray {
     background-color: alpha(@base, 0.65);
     color: @text;
@@ -112,12 +111,6 @@
     background-color: alpha(@surface1, 0.85);
     border-color: alpha(@text, 0.4);
     box-shadow: 0 4px 12px alpha(@text, 0.15);
-}
-
-#gamemode:hover {
-    background-color: alpha(@surface1, 0.85);
-    border-color: alpha(@mauve, 0.6);
-    box-shadow: 0 4px 12px alpha(@mauve, 0.25);
 }
 
 #workspaces {
@@ -266,17 +259,6 @@
 #tray > .needs-attention {
     -gtk-icon-effect: highlight;
     background-color: @red;
-}
-
-#gamemode {
-    background-color: alpha(@surface0, 0.45);
-    padding: 3px 16px;
-}
-
-#gamemode.running {
-    color: @red;
-    background-color: alpha(@red, 0.15);
-    border-color: alpha(@red, 0.4);
 }
 
 #clock-power #clock,

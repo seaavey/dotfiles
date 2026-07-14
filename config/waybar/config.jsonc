@@ -9,7 +9,7 @@
 
   "modules-left": ["custom/launcher", "group/media"],
   "modules-center": ["hyprland/workspaces"],
-  "modules-right": ["gamemode", "group/hardware", "group/clock-power", "tray"],
+  "modules-right": ["group/hardware", "group/clock-power", "tray"],
 
   // Define Media Group (Audio + Network + Bluetooth)
   "group/media": {
@@ -37,6 +37,11 @@
     "tooltip": false
   },
 
+  "tray": {
+    "icon-size": 16,
+    "spacing": 8
+  },
+
   "cpu": {
     "format": "<span color='#fab387'></span> {usage}%",
     "interval": 5
@@ -62,7 +67,7 @@
   },
 
   "network": {
-    "format-wifi": "<span color='#94e2d5'></span> ({essid})",
+    "format-wifi": "<span color='#94e2d5'></span> {essid}",
     "format-ethernet": "<span color='#94e2d5'></span> {ipaddr}",
     "format-disconnected": "<span color='#f38ba8'></span> Disconnected",
     "tooltip-format": "{ifname} via {gwaddr}",
@@ -119,18 +124,5 @@
   "clock": {
     "format": "<span color='#f5c2e7'></span> {:%H:%M}",
     "format-alt": "<span color='#f5c2e7'></span> {:%A, %B %d, %Y}"
-  },
-
-  "gamemode": {
-    "format": "{glyph}",
-    "format-alt": "{glyph} {count}",
-    "glyph": "󰊗",
-    "hide-not-running": false,
-    "use-icon": false,
-    "icon-name": "input-gaming-symbolic",
-    "icon-spacing": 4,
-    "icon-size": 18,
-    "tooltip": true,
-    "tooltip-format": "Games running: {count}"
   }
 }
