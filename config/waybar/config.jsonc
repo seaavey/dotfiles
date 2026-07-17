@@ -67,11 +67,12 @@
   },
 
   "network": {
-    "format-wifi": "<span color='#94e2d5'></span> {essid}",
-    "format-ethernet": "<span color='#94e2d5'></span> {ipaddr}",
+    "format-wifi": "<span color='#94e2d5'></span> {essid}   ⇣ {bandwidthDownBytes}   ⇡ {bandwidthUpBytes}",
+    "format-ethernet": "<span color='#94e2d5'></span> {ipaddr}   ⇣ {bandwidthDownBytes}   ⇡ {bandwidthUpBytes}",
     "format-disconnected": "<span color='#f38ba8'></span> Disconnected",
     "tooltip-format": "{ifname} via {gwaddr}",
-    "on-click": "~/.dotfiles/scripts/wifi-menu.sh"
+    "on-click": "~/.dotfiles/scripts/wifi-menu.sh",
+    "interval": 1
   },
 
   "bluetooth": {
