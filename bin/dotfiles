@@ -1,0 +1,186 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+DOTFILES_DIR="$(cd "$(dirname "$(dirname "$0")")" && pwd)"
+CMD="${1:-help}"
+shift 2>/dev/null || true
+
+green()  { printf "\033[32m%s\033[0m\n" "$1"; }
+blue()   { printf "\033[34m%s\033[0m\n" "$1"; }
+yellow() { printf "\033[33m%s\033[0m\n" "$1"; }
+red()    { printf "\033[31m%s\033[0m\n" "$1"; }
+
+usage() {
+  cat <<EOF
+Usage: dotfiles <command>
+
+Commands:
+  install    Install packages and link configs (first-time setup)
+  update     Pull latest from git and re-link configs
+  move       Move existing ~/.config/<app> dirs into the repo and symlink them
+  help       Show this help
+EOF
+}
+
+link_config() {
+  local name="$1"
+  local src="$DOTFILES_DIR/config/$name"
+  local dst="$HOME/.config/$name"
+
+  if [[ -L "$dst" ]] && [[ "$(readlink "$dst")" == "$src" ]]; then
+    green "  $name already linked"
+    return
+  fi
+
+  if [[ -e "$dst" ]]; then
+    local backup="${dst}.bak.$(date +%s)"
+    yellow "  backing up $dst -> $backup"
+    mv "$dst" "$backup"
+  fi
+
+  ln -sf "$src" "$dst"
+  green "  linked $name"
+}
+
+link_configs() {
+  blue "Linking configs..."
+  for dir in "$DOTFILES_DIR/config"/*/; do
+    link_config "$(basename "$dir")"
+  done
+}
+
+link_bin() {
+  local src="$DOTFILES_DIR/bin/dotfiles"
+  local dst="$HOME/.local/bin/dotfiles"
+  mkdir -p "$HOME/.local/bin"
+  if [[ -L "$dst" ]] && [[ "$(readlink "$dst")" == "$src" ]]; then
+    green "  dotfiles already linked in PATH"
+  else
+    ln -sf "$src" "$dst"
+    green "  linked dotfiles -> ~/.local/bin/dotfiles"
+  fi
+}
+
+make_scripts_executable() {
+  chmod +x "$DOTFILES_DIR/scripts"/*.sh "$DOTFILES_DIR/bin/dotfiles"
+}
+
+setup_fontconfig() {
+  blue "Setting up fontconfig..."
+  mkdir -p "$HOME/.config/fontconfig"
+  fc-cache -f 2>/dev/null || true
+  green "  fontconfig configured"
+}
+
+setup_gtk_theme() {
+  blue "Setting up GTK dark theme..."
+  mkdir -p "$HOME/.config/gtk-3.0" "$HOME/.config/gtk-4.0"
+  if command -v gsettings &>/dev/null; then
+    gsettings set org.gnome.desktop.interface gtk-theme 'Catppuccin-Mocha' 2>/dev/null || true
+    gsettings set org.gnome.desktop.interface icon-theme 'Papirus-Dark' 2>/dev/null || true
+    gsettings set org.gnome.desktop.interface cursor-theme 'Bibata-Modern-Classic' 2>/dev/null || true
+    gsettings set org.gnome.desktop.interface cursor-size 24 2>/dev/null || true
+    gsettings set org.gnome.desktop.interface color-scheme 'prefer-dark' 2>/dev/null || true
+    gsettings set org.gnome.desktop.interface font-name 'JetBrainsMono NFM 10' 2>/dev/null || true
+  fi
+  green "  GTK dark theme configured"
+}
+
+cmd_install() {
+  green "  Seaavey's dotfiles installer"
+  echo
+
+  # Install packages via install.sh logic
+  if ! command -v yay &>/dev/null; then
+    blue "yay not found. Installing yay..."
+    sudo pacman -S --needed --noconfirm base-devel git
+    git clone https://aur.archlinux.org/yay-bin.git /tmp/yay-bin
+    (cd /tmp/yay-bin && makepkg -si --noconfirm)
+    rm -rf /tmp/yay-bin
+  fi
+
+  PACMAN_PKGS=(
+    networkmanager rofi bluez bluez-utils libnotify dunst
+    ttf-jetbrains-mono-nerd hyprshot kitty zsh brightnessctl
+    playerctl pavucontrol dolphin gamemode wireplumber
+    pipewire-pulse papirus-icon-theme
+  )
+  YAY_PKGS=(waybar-git brave-bin bibata-cursor-theme-bin catppuccin-gtk-theme-mocha)
+
+  blue "Installing pacman packages..."
+  sudo pacman -S --needed --noconfirm "${PACMAN_PKGS[@]}"
+  blue "Installing AUR packages..."
+  yay -S --needed --noconfirm "${YAY_PKGS[@]}"
+
+  link_configs
+  link_bin
+  setup_fontconfig
+  setup_gtk_theme
+  make_scripts_executable
+
+  echo
+  green "  All done!"
+  echo
+}
+
+cmd_update() {
+  blue "Pulling latest dotfiles from git..."
+  cd "$DOTFILES_DIR"
+  git pull --rebase
+
+  link_configs
+  link_bin
+  setup_fontconfig
+  setup_gtk_theme
+  make_scripts_executable
+
+  echo
+  green "  Update complete!"
+  echo
+}
+
+cmd_move() {
+  if [[ $# -eq 0 ]]; then
+    red "Usage: dotfiles move <app> [app...]"
+    echo "  Move existing ~/.config/<app> into the repo and symlink back."
+    echo "  Example: dotfiles move hypr waybar kitty"
+    exit 1
+  fi
+
+  for name in "$@"; do
+    local src="$HOME/.config/$name"
+    local dst="$DOTFILES_DIR/config/$name"
+
+    if [[ ! -d "$src" ]] && [[ ! -f "$src" ]]; then
+      yellow "  $name: not found in ~/.config, skipping"
+      continue
+    fi
+
+    if [[ -L "$src" ]]; then
+      yellow "  $name is already a symlink, skipping"
+      continue
+    fi
+
+    if [[ -e "$dst" ]]; then
+      red "  $name: $dst already exists in repo. Remove it first or move manually."
+      continue
+    fi
+
+    blue "  Moving ~/.config/$name -> repo..."
+    mv "$src" "$dst"
+    ln -sf "$dst" "$src"
+    green "  moved and symlinked $name"
+  done
+}
+
+case "$CMD" in
+  install) cmd_install ;;
+  update)  cmd_update  ;;
+  move)    cmd_move "$@" ;;
+  help|--help|-h) usage ;;
+  *)
+    red "Unknown command: $CMD"
+    usage
+    exit 1
+    ;;
+esac
