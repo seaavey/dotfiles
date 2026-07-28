@@ -119,7 +119,8 @@ setup_nvm() {
 setup_zsh() {
   blue "Setting up Zsh..."
 
-  local zshrc_src="$DOTFILES_DIR/config/zsh/.zshrc"
+  local zsh_dir="$DOTFILES_DIR/config/zsh"
+  local zshrc_src="$zsh_dir/.zshrc"
   local zshrc_dst="$HOME/.zshrc"
 
   if [[ ! -d "$HOME/.oh-my-zsh" ]]; then
@@ -137,6 +138,14 @@ setup_zsh() {
   if [[ ! -d "$custom/zsh-syntax-highlighting" ]]; then
     blue "  Installing zsh-syntax-highlighting..."
     git clone https://github.com/zsh-users/zsh-syntax-highlighting "$custom/zsh-syntax-highlighting"
+  fi
+
+  mkdir -p "$zsh_dir"
+  if [[ ! -f "$zshrc_src" ]]; then
+    if [[ -f "$HOME/.oh-my-zsh/templates/zshrc.zsh-template" ]]; then
+      blue "  Generating .zshrc from default Oh My Zsh template..."
+      cp "$HOME/.oh-my-zsh/templates/zshrc.zsh-template" "$zshrc_dst"
+    fi
   fi
 
   if [[ -L "$zshrc_dst" ]] && [[ "$(readlink "$zshrc_dst")" == "$zshrc_src" ]]; then
