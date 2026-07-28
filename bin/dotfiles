@@ -141,7 +141,7 @@ cmd_install() {
   PACMAN_PKGS=(
     networkmanager rofi bluez bluez-utils libnotify dunst
     ttf-jetbrains-mono-nerd noto-fonts-emoji hyprshot kitty zsh brightnessctl
-    playerctl pavucontrol dolphin gamemode wireplumber zoxide autojump
+    playerctl pavucontrol dolphin gamemode wireplumber zoxide
     pipewire-pulse papirus-icon-theme
   )
   YAY_PKGS=(waybar-git brave-bin bibata-cursor-theme-bin catppuccin-gtk-theme-mocha)
