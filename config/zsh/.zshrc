@@ -16,6 +16,4 @@ export PATH="$HOME/.local/bin:$PATH"
 
 eval "$(zoxide init zsh)"
 
-
-# Added by Antigravity CLI installer
-export PATH="/home/seaavey/.local/bin:$PATH"
+# -----------------------------------------
