@@ -112,11 +112,7 @@ setup_zsh() {
   if [[ -L "$zshrc_dst" ]] && [[ "$(readlink "$zshrc_dst")" == "$zshrc_src" ]]; then
     green "  .zshrc already linked"
   else
-    if [[ -e "$zshrc_dst" ]]; then
-      local backup="${zshrc_dst}.bak.$(date +%s)"
-      yellow "  backing up $zshrc_dst -> $backup"
-      mv "$zshrc_dst" "$backup"
-    fi
+    rm -f "$zshrc_dst"
     ln -sf "$zshrc_src" "$zshrc_dst"
     green "  linked .zshrc"
   fi
