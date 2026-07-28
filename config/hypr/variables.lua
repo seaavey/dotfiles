@@ -1,7 +1,7 @@
 -- Programs
 return {
     terminal    = "kitty",
-    fileManager = "dolphin",
+    fileManager = "thunar",
     menu        = "~/.dotfiles/config/rofi/type-4/launcher_t4",
     browser     = "brave-browser",
 }
