@@ -86,6 +86,49 @@ setup_gtk_theme() {
   green "  GTK dark theme configured"
 }
 
+setup_zsh() {
+  blue "Setting up Zsh..."
+
+  local zshrc_src="$DOTFILES_DIR/config/zsh/.zshrc"
+  local zshrc_dst="$HOME/.zshrc"
+
+  if [[ ! -d "$HOME/.oh-my-zsh" ]]; then
+    blue "  Installing Oh My Zsh..."
+    sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
+  else
+    green "  Oh My Zsh already installed"
+  fi
+
+  local custom="$HOME/.oh-my-zsh/custom/plugins"
+  if [[ ! -d "$custom/zsh-autosuggestions" ]]; then
+    blue "  Installing zsh-autosuggestions..."
+    git clone https://github.com/zsh-users/zsh-autosuggestions "$custom/zsh-autosuggestions"
+  fi
+  if [[ ! -d "$custom/zsh-syntax-highlighting" ]]; then
+    blue "  Installing zsh-syntax-highlighting..."
+    git clone https://github.com/zsh-users/zsh-syntax-highlighting "$custom/zsh-syntax-highlighting"
+  fi
+
+  if [[ -L "$zshrc_dst" ]] && [[ "$(readlink "$zshrc_dst")" == "$zshrc_src" ]]; then
+    green "  .zshrc already linked"
+  else
+    if [[ -e "$zshrc_dst" ]]; then
+      local backup="${zshrc_dst}.bak.$(date +%s)"
+      yellow "  backing up $zshrc_dst -> $backup"
+      mv "$zshrc_dst" "$backup"
+    fi
+    ln -sf "$zshrc_src" "$zshrc_dst"
+    green "  linked .zshrc"
+  fi
+
+  if [[ "$SHELL" != "/usr/bin/zsh" ]] && [[ "$SHELL" != "/bin/zsh" ]]; then
+    blue "  Changing default shell to zsh (may ask for password)..."
+    chsh -s "$(command -v zsh)"
+  else
+    green "  zsh is already the default shell"
+  fi
+}
+
 cmd_install() {
   green "  Seaavey's dotfiles installer"
   echo
@@ -101,8 +144,8 @@ cmd_install() {
 
   PACMAN_PKGS=(
     networkmanager rofi bluez bluez-utils libnotify dunst
-    ttf-jetbrains-mono-nerd hyprshot kitty zsh brightnessctl
-    playerctl pavucontrol dolphin gamemode wireplumber
+    ttf-jetbrains-mono-nerd noto-fonts-emoji hyprshot kitty zsh brightnessctl
+    playerctl pavucontrol dolphin gamemode wireplumber zoxide autojump
     pipewire-pulse papirus-icon-theme
   )
   YAY_PKGS=(waybar-git brave-bin bibata-cursor-theme-bin catppuccin-gtk-theme-mocha)
@@ -116,6 +159,7 @@ cmd_install() {
   link_bin
   setup_fontconfig
   setup_gtk_theme
+  setup_zsh
   make_scripts_executable
 
   echo
@@ -132,6 +176,7 @@ cmd_update() {
   link_bin
   setup_fontconfig
   setup_gtk_theme
+  setup_zsh
   make_scripts_executable
 
   echo
