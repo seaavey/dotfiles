@@ -3,7 +3,6 @@ ZSH_THEME="agnoster"
 plugins=(
   git
   sudo
-  autojump
   zsh-autosuggestions
   zsh-syntax-highlighting
 )
