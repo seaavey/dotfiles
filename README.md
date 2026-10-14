@@ -5,7 +5,7 @@
   <p align="center">
     A curated <strong>Hyprland</strong> rice — minimal, functional, yours.
     <br>
-    Arch Linux · Waybar · Kitty · Rofi · Dunst
+    Arch Linux · Waybar · Foot · Rofi · Dunst
   </p>
   <p align="center">
     <a href="#rocket-quick-start">Quick Start</a> •
@@ -17,7 +17,7 @@
     <img src="https://img.shields.io/badge/OS-Arch_Linux-blue?style=flat&logo=archlinux" alt="OS">
     <img src="https://img.shields.io/badge/WM-Hyprland-ff69b4?style=flat" alt="WM">
     <img src="https://img.shields.io/badge/shell-zsh-4eaa25?style=flat&logo=gnu-bash" alt="Shell">
-    <img src="https://img.shields.io/badge/terminal-kitty-000000?style=flat" alt="Terminal">
+    <img src="https://img.shields.io/badge/terminal-foot-89b4fa?style=flat" alt="Terminal">
     <img src="https://img.shields.io/badge/license-MIT-green?style=flat" alt="License">
   </p>
 </div>
@@ -43,7 +43,7 @@ dotfiles/
 ├── config/
 │   ├── hypr/       → ~/.config/hypr      — Hyprland (Lua modules)
 │   ├── waybar/     → ~/.config/waybar    — Status bar (JSONC + CSS)
-│   ├── kitty/      → ~/.config/kitty     — Terminal emulator
+│   ├── foot/       → ~/.config/foot      — Terminal emulator
 │   ├── dunst/      → ~/.config/dunst     — Notifications
 │   ├── rofi/       → ~/.config/rofi      — App launcher (16 color themes)
 │   ├── gtk-3.0/    → ~/.config/gtk-3.0   — GTK3 settings
@@ -74,11 +74,11 @@ After install, `dotfiles` is available globally:
 | Category         | Packages                                                   |
 | ---------------- | ---------------------------------------------------------- |
 | **Window mgr**   | Hyprland                                                   |
-| **UI/Tools**     | Waybar, Rofi, Dunst, Kitty, Dolphin                        |
+| **UI/Tools**     | Waybar, Rofi, Dunst, Foot, Dolphin                         |
 | **Audio**        | WirePlumber, PipeWire-Pulse, pavucontrol, playerctl        |
 | **Hardware**     | brightnessctl, bluez, bluez-utils, NetworkManager          |
 | **Look & feel**  | Papirus icon theme, Catppuccin GTK, Bibata cursor, JetBrains Mono Nerd |
-| **Extras**       | hyprshot, gamemode, Brave, zsh                             |
+| **Extras**       | hyprshot, gamemode, Firefox, zsh                           |
 
 Installed automatically by `dotfiles install`.
 

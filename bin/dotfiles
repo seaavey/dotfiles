@@ -178,11 +178,12 @@ cmd_install() {
 
   PACMAN_PKGS=(
     networkmanager rofi bluez bluez-utils libnotify dunst
-    ttf-jetbrains-mono-nerd noto-fonts noto-fonts-cjk noto-fonts-emoji hyprshot kitty zsh brightnessctl
-    playerctl pavucontrol gamemode wireplumber zoxide hyprpaper
-    pipewire-pulse papirus-icon-theme thunar tumbler thunar-archive-plugin yazi
+    ttf-jetbrains-mono-nerd noto-fonts noto-fonts-cjk noto-fonts-emoji hyprshot foot zsh brightnessctl
+    playerctl pavucontrol gamemode wireplumber zoxide swaybg libva-utils
+    pipewire-pulse papirus-icon-theme thunar tumbler thunar-archive-plugin thunar-volman yazi firefox
+    gvfs gvfs-mtp ntfs-3g dosfstools exfatprogs
   )
-  YAY_PKGS=(waybar-git brave-bin bibata-cursor-theme-bin catppuccin-gtk-theme-mocha)
+  YAY_PKGS=(waybar-git bibata-cursor-theme-bin catppuccin-gtk-theme-mocha)
 
   blue "Installing pacman packages..."
   sudo pacman -S --needed --noconfirm "${PACMAN_PKGS[@]}"
@@ -224,7 +225,7 @@ cmd_move() {
   if [[ $# -eq 0 ]]; then
     red "Usage: dotfiles move <app> [app...]"
     echo "  Move existing ~/.config/<app> into the repo and symlink back."
-    echo "  Example: dotfiles move hypr waybar kitty"
+    echo "  Example: dotfiles move hypr waybar foot"
     exit 1
   fi
 

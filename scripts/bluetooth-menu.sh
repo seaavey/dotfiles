@@ -49,7 +49,7 @@ fi
 
 if [ "$chosen" = "Scan / Pair (Terminal)" ]; then
     notify-send "Bluetooth" "Opening bluetoothctl..." -i bluetooth
-    kitty -e bluetoothctl &
+    foot -e bluetoothctl &
     exit 0
 fi
 
